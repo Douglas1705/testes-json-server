@@ -2,6 +2,42 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserController } from '../controllers/UserController';
 import { User } from '../models/User';
+import { useSignUp } from '@clerk/clerk-react';
+import { RiFacebookCircleFill } from 'react-icons/ri'; 
+import { FcGoogle } from 'react-icons/fc';
+
+type OAuthStrategy = 'oauth_google' | 'oauth_facebook';
+
+const CustomSignUpButton = ({ provider, icon }: { provider: OAuthStrategy, icon: React.ReactNode }) => {
+  const { signUp } = useSignUp();
+
+  const handleSignUp = async () => {
+    try {
+      if (signUp) {
+        await signUp.authenticateWithRedirect({
+          strategy: provider,
+          redirectUrl: window.location.origin,
+          redirectUrlComplete: `${window.location.origin}/complete`, // Ajuste conforme necessário
+        });
+      } else {
+        console.error('signUp não está definido.');
+      }
+    } catch (error) {
+      console.error(`Erro ao cadastrar com ${provider}:`, error);
+    }
+  };
+
+  return (
+    <button
+      onClick={handleSignUp}
+      className="bg-white text-white rounded-full flex justify-center items-center w-auto h-16"
+    >
+      <div className="text-3xl text-blue-500 border-2 border-black px-8 py-3 rounded-full">
+        {icon}
+      </div>
+    </button>
+  );
+};
 
 function SignUpPage() {
   const navigate = useNavigate();
@@ -86,7 +122,11 @@ function SignUpPage() {
         </div>
         <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded">Cadastrar</button>
       </form>
-    </div>    
+      <div className="flex flex-row items-center space-x-4 mt-4">
+        <CustomSignUpButton provider="oauth_facebook" icon={<RiFacebookCircleFill />} />
+        <CustomSignUpButton provider="oauth_google" icon={<FcGoogle />} />
+      </div>
+    </div>
   );
 }
 

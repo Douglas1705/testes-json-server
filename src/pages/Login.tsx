@@ -1,18 +1,26 @@
 import React from 'react';
 import { useSignIn } from '@clerk/clerk-react';
 import { RiFacebookCircleFill } from 'react-icons/ri'; 
-import { FcGoogle } from "react-icons/fc";
+import { FcGoogle } from 'react-icons/fc';
 
-const CustomSignInButton = ({ provider, icon }: { provider: string, icon: React.ReactNode }) => {
+type OAuthStrategy = 'oauth_google' | 'oauth_facebook';
+
+const CustomSignInButton = ({ provider, icon }: { provider: OAuthStrategy, icon: React.ReactNode }) => {
   const { signIn } = useSignIn();
 
   const handleSignIn = async () => {
     try {
-      await signIn.authenticateWithRedirect({
-        strategy: provider,
-      });
+      if (signIn) {
+        await signIn.authenticateWithRedirect({
+          strategy: provider,
+          redirectUrl: window.location.origin,
+          redirectUrlComplete: `${window.location.origin}/complete`, // Ajuste conforme necessário
+        });
+      } else {
+        console.error('signIn não está definido.');
+      }
     } catch (error) {
-      console.error('Erro ao autenticar com', provider, ':', error);
+      console.error(`Erro ao autenticar com ${provider}:`, error);
     }
   };
 
