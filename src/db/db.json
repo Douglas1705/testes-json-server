@@ -1,0 +1,35 @@
+{
+  "users": [
+    {
+      "id": 1730916783450,
+      "firstName": "Michelle",
+      "lastName": "Vicente",
+      "username": "@michellevicente",
+      "createdAt": "2024-11-06T18:13:03.450Z",
+      "email": "douglas@hotmail.com",
+      "password": "12345",
+      "role": "User",
+      "social": {
+        "twitter": "",
+        "instagram": "",
+        "linkedin": ""
+      }
+    },
+    {
+      "id": 1730916887453,
+      "firstName": "Douglas",
+      "lastName": "Bertoldi",
+      "username": "@douglasbertoldi",
+      "createdAt": "2024-11-06T18:14:47.453Z",
+      "email": "douglas@hotmail.com",
+      "password": "12345",
+      "role": "User",
+      "social": {
+        "twitter": "",
+        "instagram": "",
+        "linkedin": ""
+      }
+    }
+  ],
+  "tasks": []
+}
